@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "noImplicitAny": false,
+    "noEmit": true,
+    "resolveJsonModule": true,
+    "allowJs": true,
+    "jsx": "react",
+    "lib": ["ES2021.String", "dom", "es6"]
+  },
+  "exclude": [
+    "**/**_broken.ts"
+  ]
+}
