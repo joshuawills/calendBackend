@@ -4,40 +4,39 @@ import config from './config.json';
 import cors from 'cors';
 import errorHandler from 'middleware-http-errors';
 import bodyParser from 'body-parser';
+const serviceAccount = require('../serviceKey.json');
+const { initializeApp, applicationDefault, cert } = require('firebase-admin/app');
+const { getFirestore, Timestamp, FieldValue } = require('firebase-admin/firestore');
+
+import generaelEndpoints from  './routes/general';
+import epicEndpoints from './routes/epicManagement';
+import incidentEndpoints from './routes/incidentManagement'
 
 const app = express();
 
 app.use(cors());
-
 app.use(morgan('dev'));
 
 const PORT: number = parseInt(process.env.PORT || config.port);
 const HOST: string = process.env.IP || 'localhost';
 
-// Check server liveness
-app.get('/echo', (req: Request, res: Response, next) => {
-  try {
-    const data = req.query.echo as string;
-    return res.json(data);
-  } catch (err) {
-    next(err);
-  }
+initializeApp({
+  credential: cert(serviceAccount)
 });
 
-// Parse JSON data from the request body
+export const db = getFirestore();
+
 app.use(bodyParser.json());
+app.use('/calend', generaelEndpoints);
+app.use('/calend', epicEndpoints);
+app.use('/calend', incidentEndpoints);
 
-
-// start server
 const server = app.listen(PORT, HOST, () => {
-  // DO NOT CHANGE THIS LINE
-  console.log(`⚡️ Server listening on port ${PORT} at ${HOST}`);
+  console.log(`🚗    Server zooming on port ${PORT}!    🚗`);
 });
 
-// handles errors nicely
 app.use(errorHandler());
 
-// For coverage, handle Ctrl+C gracefully
 process.on('SIGINT', () => {
   server.close(() => console.log('Shutting down server gracefully.'));
 });
