@@ -4,7 +4,7 @@
 </p>
 
 <p align="center">
-  The backend services for the Calend program.
+  The backend services for the Calend web-app.
 </p>
 
 ## Calend
