@@ -8,7 +8,7 @@ const serviceAccount = require('../serviceKey.json');
 const { initializeApp, applicationDefault, cert } = require('firebase-admin/app');
 const { getFirestore, Timestamp, FieldValue } = require('firebase-admin/firestore');
 
-import generaelEndpoints from  './routes/general';
+import generalEndpoints from  './routes/general';
 import epicEndpoints from './routes/epicManagement';
 import incidentEndpoints from './routes/incidentManagement'
 
@@ -27,7 +27,7 @@ initializeApp({
 export const db = getFirestore();
 
 app.use(bodyParser.json());
-app.use('/calend', generaelEndpoints);
+app.use('/calend', generalEndpoints);
 app.use('/calend', epicEndpoints);
 app.use('/calend', incidentEndpoints);
 
